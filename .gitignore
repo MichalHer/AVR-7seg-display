@@ -1,0 +1,8 @@
+# Compiled Files
+Debug/
+Release/
+
+#Eclipse Files
+.settings/
+.cproject
+.project
