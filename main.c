@@ -10,7 +10,7 @@ int main(void){
 	sei();
 	while(1){
 		roll();
-		display_number(number);
+		display_integer_number(number);
 		number++;
 		_delay_ms(700);
 	}

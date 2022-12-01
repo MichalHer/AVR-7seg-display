@@ -34,7 +34,7 @@ extern volatile uint8_t d_led_no3;
 extern volatile uint8_t d_led_no4;
 
 void d_led_init(void);
-void display_number( int number );
+void display_integer_number( int number );
 void display_roll( void ); //Takes 300ms
 
 #endif /* D_LED_H_ */

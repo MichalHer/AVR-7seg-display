@@ -17,7 +17,11 @@ volatile uint8_t d_led_no2;
 volatile uint8_t d_led_no3;
 volatile uint8_t d_led_no4;
 
+
 uint8_t symbol[26] PROGMEM = {
+/*
+ * symbols table - digits and roll sequence
+ */
 	~(S_A|S_B|S_C|S_D|S_E|S_F), 			//0
 	~(S_B|S_C),								//1
 	~(S_A|S_B|S_D|S_E|S_G),					//2
@@ -49,19 +53,26 @@ uint8_t symbol[26] PROGMEM = {
 };
 
 void d_led_init(void){
+/*
+ * Clears display and set I/O
+ */
 	LED_DATA_DIR = 0xFF;
 	LED_DATA = 0xFF;
 
 	ANODES_DIR |= CA1 | CA2 | CA3 | CA4;
 	ANODES_PORT |= CA1 | CA2 | CA3 | CA4;
 
-	TCCR0 |= ( 1<<WGM01 );
-	TCCR0 |= ( 1<<CS02 ) | ( 1<<CS00 );
-	OCR0 = 38;
-	TIMSK |= ( 1<<OCIE0 );
+	// Timer settings
+	TCCR0 |= ( 1<<WGM01 ); // CTC
+	TCCR0 |= ( 1<<CS02 ) | ( 1<<CS00 ); // prescaler 1024
+	OCR0 = 38; //overflow setting
+	TIMSK |= ( 1<<OCIE0 ); //compare match
 }
 
 void roll( void ){
+/*
+ * Displays roll effect
+ */
 	int number = 20;
 	do {
 		d_led_no1 = number;
@@ -73,7 +84,10 @@ void roll( void ){
 	} while ( number < 26 );
 }
 
-void display_number( int number ){
+void display_integer_number( int number ){
+/*
+ * Displays integer number
+ */
 	d_led_no4 = number%10;
 	number = number/10;
 	d_led_no3 = number%10;
@@ -84,9 +98,12 @@ void display_number( int number ){
 }
 
 ISR(TIMER0_COMP_vect){
+/*
+ * interrupt procedure - displays tuned on digit value
+ */
 	static uint8_t counter = 1;
 	ANODES_PORT = ( ANODES_PORT & 0xF0 ) | ( ~counter & 0x0F );
-	if 		(counter==1) LED_DATA = pgm_read_byte( &symbol[d_led_no1] );
+	if (counter==1) LED_DATA = pgm_read_byte( &symbol[d_led_no1] );
 	else if (counter==2) LED_DATA = pgm_read_byte( &symbol[d_led_no2] );
 	else if (counter==4) LED_DATA = pgm_read_byte( &symbol[d_led_no3] );
 	else if (counter==8) LED_DATA = pgm_read_byte( &symbol[d_led_no4] );
