@@ -85,7 +85,7 @@ void display_number( int number ){
 
 ISR(TIMER0_COMP_vect){
 	static uint8_t counter = 1;
-	ANODES_PORT = ~counter;
+	ANODES_PORT = ( ANODES_PORT & 0xF0 ) | ( ~counter & 0x0F );
 	if 		(counter==1) LED_DATA = pgm_read_byte( &symbol[d_led_no1] );
 	else if (counter==2) LED_DATA = pgm_read_byte( &symbol[d_led_no2] );
 	else if (counter==4) LED_DATA = pgm_read_byte( &symbol[d_led_no3] );
