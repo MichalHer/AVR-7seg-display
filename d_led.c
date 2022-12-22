@@ -73,7 +73,7 @@ void roll( void ){
 /*
  * Displays roll effect
  */
-	int number = 20;
+	uint8_t number = 20;
 	do {
 		d_led_no1 = number;
 		d_led_no2 = number;
@@ -84,7 +84,7 @@ void roll( void ){
 	} while ( number < 26 );
 }
 
-void display_integer_number( int number ){
+void display_integer_number( uint8_t number ){
 /*
  * Displays integer number
  */
