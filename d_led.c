@@ -86,14 +86,14 @@ void roll( void ){
 
 void display_integer_number( uint8_t number ){
 /*
- * Displays integer number
+ * Sets displayed integer number
  */
 	d_led_no4 = number%10;
-	number = number/10;
+	number /= 10;
 	d_led_no3 = number%10;
-	number = number/10;
+	number /= 10;
 	d_led_no2 = number%10;
-	number = number/10;
+	number /= 10;
 	d_led_no1 = number%10;
 }
 
